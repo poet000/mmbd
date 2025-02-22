@@ -83,9 +83,8 @@ const JudgeQuiz = () => {
     if (currentIndex < judgeQuestions.length - 1) {
       setCurrentIndex(prev => prev + 1)
     } else {
-      // 所有题目完成，可以跳转到结果页面
-      alert('恭喜完成所有题目！')
-      navigate('/')
+      alert('恭喜完成第一关！即将进入第二关...')
+      navigate('/choice');
     }
   }
 
