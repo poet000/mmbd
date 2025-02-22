@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import styled from '@emotion/styled'
 import { choiceQuestions } from '../data/choiceQuestions'
+import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
   max-width: 800px;
@@ -101,6 +102,7 @@ const ChoiceQuiz = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [showResult, setShowResult] = useState(false);
+  const navigate = useNavigate();
 
   const handleSelectOption = (optionIndex) => {
     setAnswers(prev => ({
@@ -148,9 +150,8 @@ const ChoiceQuiz = () => {
         ))}
         <Button 
           onClick={() => {
-            setShowResult(false);
-            setCurrentIndex(0);
-            setAnswers({});
+            localStorage.removeItem('level1Completed');
+            navigate('/judge');
           }}
           variant="primary"
         >
@@ -167,7 +168,7 @@ const ChoiceQuiz = () => {
       <Progress>
         第 {currentIndex + 1} 题 / 共 {choiceQuestions.length} 题
       </Progress>
-      <ProgressBar progress={(currentIndex + 1) / choiceQuestions.length}>
+      <ProgressBar progress={(currentIndex) / choiceQuestions.length}>
         <div />
       </ProgressBar>
 

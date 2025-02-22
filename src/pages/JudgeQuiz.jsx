@@ -99,7 +99,7 @@ const JudgeQuiz = () => {
       <Progress>
         第 {currentIndex + 1} 题 / 共 {judgeQuestions.length} 题
       </Progress>
-      <ProgressBar progress={(currentIndex + 1) / judgeQuestions.length}>
+      <ProgressBar progress={(currentIndex) / judgeQuestions.length}>
         <div />
       </ProgressBar>
       
