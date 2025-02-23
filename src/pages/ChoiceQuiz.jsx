@@ -5,18 +5,22 @@ import { useNavigate } from 'react-router-dom'
 
 const Container = styled.div`
   max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 20px auto;
+  padding: 5px 15px 15px 15px;
   background: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
 `
 
 const Progress = styled.div`
+  font-size: 1.2rem;
   text-align: center;
   margin: 20px 0;
-  font-size: 1.1rem;
-  color: #666;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    margin: 15px 0;
+  }
 `
 
 const ProgressBar = styled.div`
@@ -36,10 +40,14 @@ const ProgressBar = styled.div`
 `
 
 const QuestionCard = styled.div`
-  padding: 20px;
-  margin: 20px 0;
-  border: 1px solid #eee;
+  background: white;
   border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  
+  @media (max-width: 768px) {
+    padding: 15px;
+  }
 `
 
 const Question = styled.h3`
@@ -50,28 +58,51 @@ const Question = styled.h3`
 const OptionList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 12px;
-`
-
-const Option = styled.button`
-  padding: 15px;
-  text-align: left;
-  background: ${props => props.selected ? '#e6f7ff' : '#fff'};
-  border: 2px solid ${props => props.selected ? '#1890ff' : '#ddd'};
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s;
+  gap: 15px;
+  margin: 20px 0;
   
-  &:hover {
-    background: #f0f9ff;
-    border-color: #69c0ff;
+  @media (max-width: 768px) {
+    gap: 10px;
+    margin: 15px 0;
   }
 `
 
-const NavigationButtons = styled.div`
+const Option = styled.div`
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  
+  &:hover {
+    background: #f5f5f5;
+  }
+  
+  &.selected {
+    background: #e6f7ff;
+    border-color: #1890ff;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+`
+
+const ButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 15px;
   margin-top: 20px;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 10px;
+    
+    button {
+      width: 100%;
+    }
+  }
 `
 
 const Button = styled.button`
@@ -168,7 +199,7 @@ const ChoiceQuiz = () => {
       <Progress>
         第 {currentIndex + 1} 题 / 共 {choiceQuestions.length} 题
       </Progress>
-      <ProgressBar progress={(currentIndex) / choiceQuestions.length}>
+      <ProgressBar progress={(currentIndex + 1) / choiceQuestions.length}>
         <div />
       </ProgressBar>
 
@@ -178,7 +209,7 @@ const ChoiceQuiz = () => {
           {currentQuestion.options.map((option, index) => (
             <Option
               key={index}
-              selected={answers[currentIndex] === index}
+              className={answers[currentIndex] === index ? 'selected' : ''}
               onClick={() => handleSelectOption(index)}
             >
               {option}
@@ -187,7 +218,7 @@ const ChoiceQuiz = () => {
         </OptionList>
       </QuestionCard>
 
-      <NavigationButtons>
+      <ButtonGroup>
         <Button 
           onClick={handlePrevious}
           disabled={currentIndex === 0}
@@ -202,7 +233,7 @@ const ChoiceQuiz = () => {
         >
           {currentIndex === choiceQuestions.length - 1 ? '提交答案' : '下一题'}
         </Button>
-      </NavigationButtons>
+      </ButtonGroup>
     </Container>
   );
 };

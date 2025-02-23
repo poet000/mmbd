@@ -6,11 +6,21 @@ import styled from '@emotion/styled'
 
 const Container = styled.div`
   max-width: 800px;
+  min-height: 80vh;
   margin: 0 auto;
   padding: 20px;
   background: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  
+  @media (max-width: 768px) {
+    min-height: 90vh;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+  }
 `
 
 const Progress = styled.div`
@@ -36,6 +46,22 @@ const ProgressBar = styled.div`
   }
 `
 
+const ButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  margin-top: 20px;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 10px;
+    
+    button {
+      width: 100%;
+    }
+  }
+`
+
 const Button = styled.button`
   padding: 12px 32px;
   background: ${props => props.variant === 'primary' ? '#1890ff' : '#fff'};
@@ -43,7 +69,6 @@ const Button = styled.button`
   border: 2px solid ${props => props.variant === 'primary' ? '#1890ff' : '#ddd'};
   border-radius: 8px;
   cursor: pointer;
-  margin: 10px;
   font-size: 1rem;
   font-weight: 600;
   transition: all 0.2s ease;
@@ -61,10 +86,11 @@ const Button = styled.button`
   }
 `
 
-const NavigationButtons = styled.div`
+
+const QuizCardWrapper = styled.div`
+  flex: 1;
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  flex-direction: column;
 `
 
 const JudgeQuiz = () => {
@@ -83,6 +109,7 @@ const JudgeQuiz = () => {
     if (currentIndex < judgeQuestions.length - 1) {
       setCurrentIndex(prev => prev + 1)
     } else {
+
       alert('恭喜完成第一关！即将进入第二关...')
       navigate('/choice');
     }
@@ -99,17 +126,17 @@ const JudgeQuiz = () => {
       <Progress>
         第 {currentIndex + 1} 题 / 共 {judgeQuestions.length} 题
       </Progress>
-      <ProgressBar progress={(currentIndex) / judgeQuestions.length}>
+      <ProgressBar progress={(currentIndex + 1) / judgeQuestions.length}>
         <div />
       </ProgressBar>
       
-      <QuizCard
-        question={judgeQuestions[currentIndex]}
-        onAnswer={handleAnswer}
-        selectedAnswer={answers[currentIndex]}
-      />
+        <QuizCard
+          question={judgeQuestions[currentIndex]}
+          onAnswer={handleAnswer}
+          selectedAnswer={answers[currentIndex]}
+        />
 
-      <NavigationButtons>
+      <ButtonGroup>
         <Button 
           onClick={handlePrevious}
           disabled={currentIndex === 0}
@@ -125,7 +152,7 @@ const JudgeQuiz = () => {
         >
           {currentIndex === judgeQuestions.length - 1 ? '完成答题' : '下一题'}
         </Button>
-      </NavigationButtons>
+      </ButtonGroup>
     </Container>
   )
 }
